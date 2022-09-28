@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
                         //ArrayAdapter<Book> arrayAdapter = new ArrayAdapter<Book>(MainActivity.this, android.R.layout.simple_list_item_1, booksArray);
 
+
+//https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
                         BooksAdapter adapter = new BooksAdapter(MainActivity.this, booksArray);
                         listView.setAdapter(adapter);
 

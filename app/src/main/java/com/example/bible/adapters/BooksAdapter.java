@@ -31,6 +31,7 @@ public class BooksAdapter extends ArrayAdapter<Book> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//        https://stackoverflow.com/questions/9730328/the-getview-method-of-arrayadapter-is-not-getting-called
         Book bk = getItem(position);
 
         if (convertView == null) {

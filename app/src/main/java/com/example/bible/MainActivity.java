@@ -9,13 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.QuickContactBadge;
 import android.widget.Toast;
 
-import com.example.bible.networking.BibleChaptersService;
 import com.example.bible.networking.BibleService;
-import com.example.bible.pojos.Bible;
-import com.example.bible.pojos.BibleResponses;
+import com.example.bible.pojos.Book;
+import com.example.bible.pojos.BookResponses;
 
 import java.util.ArrayList;
 
@@ -46,30 +44,35 @@ public class MainActivity extends AppCompatActivity {
 
         BibleService service = retrofit.create(BibleService.class);
 
-        Call<BibleResponses>  listBibles =  service.listBibles();
+        Call<BookResponses>  listBibles =  service.listBibles();
 
-        listBibles.enqueue(new Callback<BibleResponses>() {
+        listBibles.enqueue(new Callback<BookResponses>() {
             @Override
-            public void onResponse( Call<BibleResponses> call,Response<BibleResponses> response) {
+            public void onResponse(Call<BookResponses> call, Response<BookResponses> response) {
                 if(response.isSuccessful())
                 {
-                    BibleResponses bibleResponse = response.body();
+                    BookResponses bibleResponse = response.body();
 
-                    assert bibleResponse != null;
-                    for(Bible bible: bibleResponse.getData())
+                    if(bibleResponse.getData() != null)
                     {
-                        booksArray.add(bible.getName());
-                        Log.d(TAG, "onResponse: id"+bible.getId());
+                        for(Book book : bibleResponse.getData())
+                        {
+                            booksArray.add(book.getName());
+                            Log.d(TAG, "onResponse: id"+ book.getId());
+                        }
+
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, booksArray);
+
+                        listView.setAdapter(arrayAdapter);
+                    } else {
+                        Toast.makeText(MainActivity.this, "No data", Toast.LENGTH_SHORT).show();
                     }
 
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, booksArray);
-
-                    listView.setAdapter(arrayAdapter);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<BibleResponses> call, Throwable t) {
+            public void onFailure(@NonNull Call<BookResponses> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
 
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();

@@ -1,10 +1,7 @@
 package com.example.bible.networking;
 
 import com.example.bible.ReUsableComponents;
-import com.example.bible.pojos.Bible;
-import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.BibleChaptersResponses;
-import com.example.bible.pojos.BibleResponses;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

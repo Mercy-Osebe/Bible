@@ -2,20 +2,15 @@ package com.example.bible;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.bible.networking.BibleChaptersService;
-import com.example.bible.networking.BibleService;
-import com.example.bible.pojos.Bible;
 import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.BibleChaptersResponses;
-import com.example.bible.pojos.BibleResponses;
 
 import java.util.ArrayList;
 

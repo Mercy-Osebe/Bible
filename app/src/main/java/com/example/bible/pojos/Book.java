@@ -1,6 +1,6 @@
 package com.example.bible.pojos;
 
-public class Bible {
+public class Book {
 
     public String id;
     public String bibleId;

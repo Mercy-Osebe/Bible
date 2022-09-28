@@ -1,20 +1,14 @@
 package com.example.bible.pojos;
 
 public class Bible {
-   static private String id;
-    private String dblId;
-    private String relatedDbl = null;
-    private String name;
-    private String nameLocal;
-    private String abbreviation;
-    private String abbreviationLocal;
-    private String description;
-    private String descriptionLocal;
 
+    public String id;
+    public String bibleId;
+    public String abbreviation;
+    public String name;
+    public String nameLong;
 
-
-
-    public static String getId() {
+    public String getId() {
         return id;
     }
 
@@ -22,36 +16,12 @@ public class Bible {
         this.id = id;
     }
 
-    public String getDblId() {
-        return dblId;
+    public String getBibleId() {
+        return bibleId;
     }
 
-    public void setDblId(String dblId) {
-        this.dblId = dblId;
-    }
-
-    public String getRelatedDbl() {
-        return relatedDbl;
-    }
-
-    public void setRelatedDbl(String relatedDbl) {
-        this.relatedDbl = relatedDbl;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNameLocal() {
-        return nameLocal;
-    }
-
-    public void setNameLocal(String nameLocal) {
-        this.nameLocal = nameLocal;
+    public void setBibleId(String bibleId) {
+        this.bibleId = bibleId;
     }
 
     public String getAbbreviation() {
@@ -62,27 +32,19 @@ public class Bible {
         this.abbreviation = abbreviation;
     }
 
-    public String getAbbreviationLocal() {
-        return abbreviationLocal;
+    public String getName() {
+        return name;
     }
 
-    public void setAbbreviationLocal(String abbreviationLocal) {
-        this.abbreviationLocal = abbreviationLocal;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getNameLong() {
+        return nameLong;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescriptionLocal() {
-        return descriptionLocal;
-    }
-
-    public void setDescriptionLocal(String descriptionLocal) {
-        this.descriptionLocal = descriptionLocal;
+    public void setNameLong(String nameLong) {
+        this.nameLong = nameLong;
     }
 }

@@ -1,13 +1,15 @@
 package com.example.bible.pojos;
 
+import android.content.Intent;
+
 public class BibleChaptersData {
-    public String id;
+    public static String id;
     public String bibleId;
     public String abbreviation;
     public String name;
     public String nameLong;
 
-    public String getId() {
+    public static String getId() {
         return id;
     }
 

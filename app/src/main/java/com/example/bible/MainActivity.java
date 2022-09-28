@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.QuickContactBadge;
@@ -26,12 +27,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    ArrayList<String> booksArray = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ListView listView = findViewById(R.id.listView);
-        ArrayList<String> booksArray=new ArrayList<>();
+
+
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -39,14 +44,13 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-
         BibleService service = retrofit.create(BibleService.class);
 
-        Call<BibleResponses> listBibles =  service.listBibles();
+        Call<BibleResponses>  listBibles =  service.listBibles();
 
         listBibles.enqueue(new Callback<BibleResponses>() {
             @Override
-            public void onResponse(@NonNull Call<BibleResponses> call, @NonNull Response<BibleResponses> response) {
+            public void onResponse( Call<BibleResponses> call,Response<BibleResponses> response) {
                 if(response.isSuccessful())
                 {
                     BibleResponses bibleResponse = response.body();
@@ -55,70 +59,32 @@ public class MainActivity extends AppCompatActivity {
                     for(Bible bible: bibleResponse.getData())
                     {
                         booksArray.add(bible.getName());
+                        Log.d(TAG, "onResponse: id"+bible.getId());
                     }
 
-                    ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(MainActivity.this,android.R.layout.simple_list_item_1,booksArray);
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, booksArray);
 
                     listView.setAdapter(arrayAdapter);
                 }
-
             }
 
             @Override
-            public void onFailure(Call<BibleResponses> call, Throwable t) {
+            public void onFailure(@NonNull Call<BibleResponses> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
 
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
-        listView.setOnClickListener(new View.OnClickListener() {
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://api.scripture.api.bible")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-
-                BibleChaptersService service = retrofit.create(BibleChaptersService.class);
-
-//                Call<BibleResponses> listChapters =  service.listChapters();
-
-                listBibles.enqueue(new Callback<BibleResponses>() {
-                    @Override
-                    public void onResponse(@NonNull Call<BibleResponses> call, @NonNull Response<BibleResponses> response) {
-                        if(response.isSuccessful())
-                        {
-                            BibleResponses bibleResponse = response.body();
-
-                            assert bibleResponse != null;
-                            for(Bible bible: bibleResponse.getData())
-                            {
-                                booksArray.add(bible.getName());
-                            }
-
-                            ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(MainActivity.this,android.R.layout.simple_list_item_1,booksArray);
-
-                            listView.setAdapter(arrayAdapter);
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<BibleResponses> call, Throwable t) {
-                        Log.d(TAG, t.getMessage());
-
-                        Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(TAG, "onItemClick:"+view.getId());
+                Log.d(TAG, "onItemClick: "+i);
 
             }
         });
 
-
-
-
+        Log.d(TAG, "onCreate: end");
     }
 }

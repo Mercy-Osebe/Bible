@@ -28,7 +28,17 @@ public class BibleChaptersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bible_chapters);
+
+        String bookId = getIntent().getStringExtra("book-id");
+
+        if(bookId == null)
+        {
+            Toast.makeText(this, "Book id is null", Toast.LENGTH_SHORT).show();
+        }
+
+
         bibleListView=findViewById(R.id.bibleListView);
+
         ArrayList<String> chaptersArray = new ArrayList<>();
         ArrayAdapter<String> chaptersArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, chaptersArray);
 
@@ -41,14 +51,14 @@ public class BibleChaptersActivity extends AppCompatActivity {
 
         BibleChaptersService service = (BibleChaptersService) retrofit.create(BibleChaptersService.class);
 
-        Call<BibleChaptersResponses> listChapters = service.listChapters();
+        Call<BibleChaptersResponses> listChapters = service.listChapters(bookId);
         listChapters.enqueue(new Callback<BibleChaptersResponses>() {
             @Override
             public void onResponse(Call<BibleChaptersResponses> call, Response<BibleChaptersResponses> response) {
                 if (response.isSuccessful()) {
                     BibleChaptersResponses bibleChaptersResponses = response.body();
                     for (BibleChaptersData bibleChaptersData : bibleChaptersResponses.getData()) {
-                        chaptersArray.add(bibleChaptersData.getName());
+                        chaptersArray.add(bibleChaptersData.getReference());
                     }
 
                     bibleListView.setAdapter(chaptersArrayAdapter);

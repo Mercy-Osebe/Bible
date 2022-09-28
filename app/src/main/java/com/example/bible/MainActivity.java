@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.bible.adapters.BooksAdapter;
 import com.example.bible.networking.BibleService;
 import com.example.bible.pojos.Book;
 import com.example.bible.pojos.BookResponses;
@@ -25,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    ArrayList<String> booksArray = new ArrayList<>();
+    ArrayList<Book> booksArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +58,15 @@ public class MainActivity extends AppCompatActivity {
                     {
                         for(Book book : bibleResponse.getData())
                         {
-                            booksArray.add(book.getName());
+                            booksArray.add(book);
                             Log.d(TAG, "onResponse: id"+ book.getId());
                         }
 
-                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, booksArray);
+                        //ArrayAdapter<Book> arrayAdapter = new ArrayAdapter<Book>(MainActivity.this, android.R.layout.simple_list_item_1, booksArray);
 
-                        listView.setAdapter(arrayAdapter);
+                        BooksAdapter adapter = new BooksAdapter(MainActivity.this, booksArray);
+                        listView.setAdapter(adapter);
+
                     } else {
                         Toast.makeText(MainActivity.this, "No data", Toast.LENGTH_SHORT).show();
                     }
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

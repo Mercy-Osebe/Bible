@@ -3,13 +3,13 @@ package com.example.bible.pojos;
 import android.content.Intent;
 
 public class BibleChaptersData {
-    public static String id;
-    public String bibleId;
-    public String abbreviation;
-    public String name;
-    public String nameLong;
+    public  String id;
+    public  String bibleId;
+    public  String bookId;
+    public  String number;
+    public  String reference;
 
-    public static String getId() {
+    public String getId() {
         return id;
     }
 
@@ -25,27 +25,27 @@ public class BibleChaptersData {
         this.bibleId = bibleId;
     }
 
-    public String getAbbreviation() {
-        return abbreviation;
+    public String getBookId() {
+        return bookId;
     }
 
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
-    public String getName() {
-        return name;
+    public String getNumber() {
+        return number;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public String getNameLong() {
-        return nameLong;
+    public String getReference() {
+        return reference;
     }
 
-    public void setNameLong(String nameLong) {
-        this.nameLong = nameLong;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }

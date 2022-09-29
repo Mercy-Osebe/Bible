@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bible.adapters.VersesAdapter;
 import com.example.bible.networking.BibleChaptersService;
 import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.BibleChaptersResponses;
@@ -42,8 +42,8 @@ public class BibleVersesActivity extends AppCompatActivity {
 //        bibleListView=findViewById(R.id.bibleListView);
         verseListView=findViewById(R.id.versesListView);
 
-        ArrayList<String> verseArray = new ArrayList<>();
-        ArrayAdapter<String> verseArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, verseArray);
+        ArrayList<BibleChaptersData> verseArray = new ArrayList<>();
+        VersesAdapter<String> verseAdapter = new VersesAdapter<String>(this, android.R.layout.simple_list_item_1, verseArray);
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -61,9 +61,9 @@ public class BibleVersesActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     BibleChaptersResponses bibleChaptersResponses = response.body();
                     for (BibleChaptersData bibleChaptersData : bibleChaptersResponses.getData()) {
-                        verseArray.add(bibleChaptersData.number);
+                        verseArray.add(bibleChaptersData);
                     }
-                    verseListView.setAdapter(verseArrayAdapter);
+                    verseListView.setAdapter(verseAdapter);
                 }
 
             }

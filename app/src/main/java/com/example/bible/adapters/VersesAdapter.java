@@ -13,23 +13,33 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.bible.BibleChaptersActivity;
 import com.example.bible.BibleVersesActivity;
 import com.example.bible.R;
-import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.Book;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class VersesAdapter extends ArrayAdapter<BibleChaptersData>  {
+public class VersesAdapter<S> extends ArrayAdapter<BibleChaptersData>  {
     private ArrayList<BibleChaptersData> chapters;
     private Context coontext;
-        public VersesAdapter(@NonNull Context context, ArrayList<BibleChaptersData> chapters)  {
-            super(context, 0, chapters);
-            this.coontext = context;
-        }
+
+    public VersesAdapter(@NonNull Context context, int resource, ArrayList<BibleChaptersData> chapters) {
+        super(context, 0, chapters);
+        this.chapters=chapters;
+        this.coontext=coontext;
+    }
+
+//    public VersesAdapter(@NonNull Context context, ArrayList<BibleChaptersData> chapters)  {
+//            super(context, 0, chapters);
+//            this.coontext = context;
+//        }
+//
+//
+//
+//    public VersesAdapter(BibleVersesActivity context, int simple_list_item_1, ArrayList<S> verseArray) {
+//        super();
+//    }
 
 
     @NonNull

@@ -6,14 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".BibleChaptersActivity">
 
-    <ListView
-        android:id="@+id/bibleListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+<!--    <ListView-->
+<!--        android:id="@+id/bibleListView"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="500dp"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <GridView
+        android:id="@+id/chaptersGridView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+       android:gravity="center_horizontal"
+        android:numColumns="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

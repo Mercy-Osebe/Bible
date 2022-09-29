@@ -62,12 +62,16 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "onResponse: id"+ book.getId());
                         }
 
-                        //ArrayAdapter<Book> arrayAdapter = new ArrayAdapter<Book>(MainActivity.this, android.R.layout.simple_list_item_1, booksArray);
 
-
-//https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
+                        //https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
                         BooksAdapter adapter = new BooksAdapter(MainActivity.this, booksArray);
                         listView.setAdapter(adapter);
+                        //setting the adapter
+
+
+
+
+
 
                     } else {
                         Toast.makeText(MainActivity.this, "No data", Toast.LENGTH_SHORT).show();
@@ -85,15 +89,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick:"+view.getId());
-                Log.d(TAG, "onItemClick: "+i);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d(TAG, "onItemClick:"+view.getId());
+//                Log.d(TAG, "onItemClick: "+i);
+//
+//            }
+//        });
 
-            }
-        });
-
-        Log.d(TAG, "onCreate: end");
     }
 }

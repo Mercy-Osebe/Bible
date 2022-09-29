@@ -2,20 +2,16 @@ package com.example.bible;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bible.networking.BibleChaptersService;
 import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.BibleChaptersResponses;
-import com.example.bible.pojos.BibleVersesData;
 
 import java.util.ArrayList;
 
@@ -25,31 +21,29 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BibleChaptersActivity extends AppCompatActivity {
-    private static final String TAG = "BibleChaptersActivity";
-//    ListView bibleListView;
-    GridView chaptersGridView;
-
+public class BibleVersesActivity extends AppCompatActivity {
+    private static final String TAG = "BibleVersesActivity";
+    ListView verseListView;
+    TextView verseTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bible_chapters);
+        setContentView(R.layout.activity_bible_verses);
+        verseListView=findViewById(R.id.versesListView);
+        verseTextView=findViewById(R.id.versesTextView);
+        String chapterId = getIntent().getStringExtra("chapter-id");
 
-
-//get the onclick intent.
-        String bookId = getIntent().getStringExtra("book-id");
-
-        if(bookId == null)
+        if(chapterId == null)
         {
-            Toast.makeText(this, "Book id is null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Chapter id is null", Toast.LENGTH_SHORT).show();
         }
 
 
 //        bibleListView=findViewById(R.id.bibleListView);
-        chaptersGridView=findViewById(R.id.chaptersGridView);
+        verseListView=findViewById(R.id.versesListView);
 
-        ArrayList<String> chaptersArray = new ArrayList<>();
-        ArrayAdapter<String> chaptersArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, chaptersArray);
+        ArrayList<String> verseArray = new ArrayList<>();
+        ArrayAdapter<String> verseArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, verseArray);
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -60,18 +54,16 @@ public class BibleChaptersActivity extends AppCompatActivity {
 
         BibleChaptersService service = (BibleChaptersService) retrofit.create(BibleChaptersService.class);
 
-        Call<BibleChaptersResponses> listChapters = service.listChapters(bookId);
+        Call<BibleChaptersResponses> listChapters = service.listChapters(chapterId);
         listChapters.enqueue(new Callback<BibleChaptersResponses>() {
             @Override
             public void onResponse(Call<BibleChaptersResponses> call, Response<BibleChaptersResponses> response) {
                 if (response.isSuccessful()) {
                     BibleChaptersResponses bibleChaptersResponses = response.body();
                     for (BibleChaptersData bibleChaptersData : bibleChaptersResponses.getData()) {
-                        chaptersArray.add(bibleChaptersData.number);
+                        verseArray.add(bibleChaptersData.number);
                     }
-                    chaptersGridView.setAdapter(chaptersArrayAdapter);
-
-//                    bibleListView.setAdapter(chaptersArrayAdapter);
+                    verseListView.setAdapter(verseArrayAdapter);
                 }
 
             }
@@ -84,13 +76,6 @@ public class BibleChaptersActivity extends AppCompatActivity {
 
             }
         });
-        chaptersGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick: ");
-            }
-        });
-
 
     }
 }

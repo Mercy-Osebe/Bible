@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bible.adapters.VersesAdapter;
 import com.example.bible.networking.BibleChaptersService;
 import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.BibleChaptersResponses;
@@ -31,19 +31,19 @@ public class BibleVersesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bible_verses);
         verseListView=findViewById(R.id.versesListView);
         verseTextView=findViewById(R.id.versesTextView);
-        String chapterId = getIntent().getStringExtra("chapter-id");
+        String versesId = getIntent().getStringExtra("verses-id");
 
-        if(chapterId == null)
+        if(versesId == null)
         {
-            Toast.makeText(this, "Chapter id is null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "verse id is null", Toast.LENGTH_SHORT).show();
         }
 
 
 //        bibleListView=findViewById(R.id.bibleListView);
         verseListView=findViewById(R.id.versesListView);
 
-        ArrayList<String> verseArray = new ArrayList<>();
-        ArrayAdapter<String> verseArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, verseArray);
+        ArrayList<BibleChaptersData> verseArray = new ArrayList<>();
+        VersesAdapter verseAdapter = new VersesAdapter(this, android.R.layout.simple_list_item_1, verseArray);
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -54,16 +54,16 @@ public class BibleVersesActivity extends AppCompatActivity {
 
         BibleChaptersService service = (BibleChaptersService) retrofit.create(BibleChaptersService.class);
 
-        Call<BibleChaptersResponses> listChapters = service.listChapters(chapterId);
+        Call<BibleChaptersResponses> listChapters = service.listChapters(versesId);
         listChapters.enqueue(new Callback<BibleChaptersResponses>() {
             @Override
             public void onResponse(Call<BibleChaptersResponses> call, Response<BibleChaptersResponses> response) {
                 if (response.isSuccessful()) {
                     BibleChaptersResponses bibleChaptersResponses = response.body();
                     for (BibleChaptersData bibleChaptersData : bibleChaptersResponses.getData()) {
-                        verseArray.add(bibleChaptersData.number);
+                        verseArray.add(bibleChaptersData);
                     }
-                    verseListView.setAdapter(verseArrayAdapter);
+                    verseListView.setAdapter(verseAdapter);
                 }
 
             }

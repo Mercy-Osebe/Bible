@@ -59,19 +59,12 @@ public class MainActivity extends AppCompatActivity {
                         for(Book book : bibleResponse.getData())
                         {
                             booksArray.add(book);
-                            Log.d(TAG, "onResponse: id"+ book.getId());
+                            Log.d(TAG, "onResponse: id"+ book.name);
                         }
-
-
-                        //https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
+                   //https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
                         BooksAdapter adapter = new BooksAdapter(MainActivity.this, booksArray);
                         listView.setAdapter(adapter);
                         //setting the adapter
-
-
-
-
-
 
                     } else {
                         Toast.makeText(MainActivity.this, "No data", Toast.LENGTH_SHORT).show();

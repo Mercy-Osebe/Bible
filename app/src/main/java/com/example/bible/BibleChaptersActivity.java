@@ -12,10 +12,15 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.bible.adapters.BooksAdapter;
+import com.example.bible.adapters.ChaptersAdapter;
 import com.example.bible.networking.BibleChaptersService;
+import com.example.bible.networking.BibleService;
 import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.BibleChaptersResponses;
 import com.example.bible.pojos.BibleVersesData;
+import com.example.bible.pojos.Book;
+import com.example.bible.pojos.BookResponses;
 
 import java.util.ArrayList;
 
@@ -27,7 +32,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BibleChaptersActivity extends AppCompatActivity {
     private static final String TAG = "BibleChaptersActivity";
-//    ListView bibleListView;
     GridView chaptersGridView;
 
     @Override
@@ -36,58 +40,44 @@ public class BibleChaptersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bible_chapters);
 
 
-//get the onclick intent.
+//get the onclick intent-from the main activity list view.
         String bookId = getIntent().getStringExtra("book-id");
 
         if(bookId == null)
         {
             Toast.makeText(this, "Book id is null", Toast.LENGTH_SHORT).show();
         }
-
-
-//        bibleListView=findViewById(R.id.bibleListView);
         chaptersGridView=findViewById(R.id.chaptersGridView);
 
-        ArrayList<String> chaptersArray = new ArrayList<>();
-        ArrayAdapter<String> chaptersArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, chaptersArray);
-
-
+        ArrayList<BibleChaptersData> chaptersArray = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.scripture.api.bible")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-
         BibleChaptersService service = (BibleChaptersService) retrofit.create(BibleChaptersService.class);
 
         Call<BibleChaptersResponses> listChapters = service.listChapters(bookId);
+
         listChapters.enqueue(new Callback<BibleChaptersResponses>() {
             @Override
             public void onResponse(Call<BibleChaptersResponses> call, Response<BibleChaptersResponses> response) {
                 if (response.isSuccessful()) {
                     BibleChaptersResponses bibleChaptersResponses = response.body();
-                    for (BibleChaptersData bibleChaptersData : bibleChaptersResponses.getData()) {
-                        chaptersArray.add(bibleChaptersData.number);
-                    }
-                    chaptersGridView.setAdapter(chaptersArrayAdapter);
+                   if(bibleChaptersResponses.getData() != null){
+                       for(BibleChaptersData bibleChapters : bibleChaptersResponses.getData()){
+                           chaptersArray.add(bibleChapters);
+                       }
+                       ChaptersAdapter chaptersArrayAdapter=new ChaptersAdapter(BibleChaptersActivity.this,chaptersArray);
+                       chaptersGridView.setAdapter(chaptersArrayAdapter);
 
-//                    bibleListView.setAdapter(chaptersArrayAdapter);
+
+                   } else Toast.makeText(BibleChaptersActivity.this, "No data", Toast.LENGTH_SHORT).show();
                 }
-
             }
-
             @Override
             public void onFailure(Call<BibleChaptersResponses> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
-
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        chaptersGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick: ");
             }
         });
 

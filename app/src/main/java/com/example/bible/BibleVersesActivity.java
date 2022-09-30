@@ -31,11 +31,11 @@ public class BibleVersesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bible_verses);
         verseListView=findViewById(R.id.versesListView);
         verseTextView=findViewById(R.id.versesTextView);
-        String chapterId = getIntent().getStringExtra("chapter-id");
+        String versesId = getIntent().getStringExtra("verses-id");
 
-        if(chapterId == null)
+        if(versesId == null)
         {
-            Toast.makeText(this, "Chapter id is null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "verse id is null", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -43,7 +43,7 @@ public class BibleVersesActivity extends AppCompatActivity {
         verseListView=findViewById(R.id.versesListView);
 
         ArrayList<BibleChaptersData> verseArray = new ArrayList<>();
-        VersesAdapter<String> verseAdapter = new VersesAdapter<String>(this, android.R.layout.simple_list_item_1, verseArray);
+        VersesAdapter verseAdapter = new VersesAdapter(this, android.R.layout.simple_list_item_1, verseArray);
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -54,7 +54,7 @@ public class BibleVersesActivity extends AppCompatActivity {
 
         BibleChaptersService service = (BibleChaptersService) retrofit.create(BibleChaptersService.class);
 
-        Call<BibleChaptersResponses> listChapters = service.listChapters(chapterId);
+        Call<BibleChaptersResponses> listChapters = service.listChapters(versesId);
         listChapters.enqueue(new Callback<BibleChaptersResponses>() {
             @Override
             public void onResponse(Call<BibleChaptersResponses> call, Response<BibleChaptersResponses> response) {

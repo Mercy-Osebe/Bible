@@ -1,11 +1,11 @@
 package com.example.bible.pojos;
 
 public class BibleVersesData {
+
     public String id;
-    public String orgId;
-    public String bookId;
-    public String chapterId;
     public String bibleId;
+    public String bookId;
+    public String number;
     public String reference;
 
     public String getId() {
@@ -16,12 +16,12 @@ public class BibleVersesData {
         this.id = id;
     }
 
-    public String getOrgId() {
-        return orgId;
+    public String getBibleId() {
+        return bibleId;
     }
 
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
+    public void setBibleId(String bibleId) {
+        this.bibleId = bibleId;
     }
 
     public String getBookId() {
@@ -32,20 +32,12 @@ public class BibleVersesData {
         this.bookId = bookId;
     }
 
-    public String getChapterId() {
-        return chapterId;
+    public String getNumber() {
+        return number;
     }
 
-    public void setChapterId(String chapterId) {
-        this.chapterId = chapterId;
-    }
-
-    public String getBibleId() {
-        return bibleId;
-    }
-
-    public void setBibleId(String bibleId) {
-        this.bibleId = bibleId;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getReference() {

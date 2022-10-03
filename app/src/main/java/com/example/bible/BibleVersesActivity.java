@@ -4,14 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bible.adapters.ChaptersAdapter;
 import com.example.bible.adapters.VersesAdapter;
 import com.example.bible.networking.BibleChaptersService;
+import com.example.bible.networking.BibleVersesService;
+//import com.example.bible.networking.VersesService;
 import com.example.bible.pojos.BibleChaptersData;
 import com.example.bible.pojos.BibleChaptersResponses;
+import com.example.bible.pojos.BibleVersesData;
+import com.example.bible.pojos.BibleVersesResponses;
+import com.example.bible.pojos.VersesContentResponses;
 
 import java.util.ArrayList;
 
@@ -31,51 +39,61 @@ public class BibleVersesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bible_verses);
         verseListView=findViewById(R.id.versesListView);
         verseTextView=findViewById(R.id.versesTextView);
-        String versesId = getIntent().getStringExtra("verses-id");
-
-        if(versesId == null)
+        String chapterId = getIntent().getStringExtra("chapter-id");
+        if(chapterId == null)
         {
-            Toast.makeText(this, "verse id is null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "chapter id is null", Toast.LENGTH_SHORT).show();
         }
-
-
-//        bibleListView=findViewById(R.id.bibleListView);
         verseListView=findViewById(R.id.versesListView);
-
-        ArrayList<BibleChaptersData> verseArray = new ArrayList<>();
-        VersesAdapter verseAdapter = new VersesAdapter(this, android.R.layout.simple_list_item_1, verseArray);
-
-
+        ArrayList<BibleVersesData> verseArray = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.scripture.api.bible")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        BibleVersesService service=(BibleVersesService)retrofit.create(BibleVersesService.class);
+        Call<BibleVersesResponses> listVerses=service.listVerses(chapterId);
 
-        BibleChaptersService service = (BibleChaptersService) retrofit.create(BibleChaptersService.class);
-
-        Call<BibleChaptersResponses> listChapters = service.listChapters(versesId);
-        listChapters.enqueue(new Callback<BibleChaptersResponses>() {
+        listVerses.enqueue(new Callback<BibleVersesResponses>() {
             @Override
-            public void onResponse(Call<BibleChaptersResponses> call, Response<BibleChaptersResponses> response) {
+            public void onResponse(Call<BibleVersesResponses> call, Response<BibleVersesResponses> response) {
                 if (response.isSuccessful()) {
-                    BibleChaptersResponses bibleChaptersResponses = response.body();
-                    for (BibleChaptersData bibleChaptersData : bibleChaptersResponses.getData()) {
-                        verseArray.add(bibleChaptersData);
-                    }
-                    verseListView.setAdapter(verseAdapter);
-                }
+                    BibleVersesResponses bibleVersesResponses = response.body();
+                    if(bibleVersesResponses.getData() != null){
+                        for(BibleVersesData bibleVerses : bibleVersesResponses.getData()){
+                            verseArray  .add(bibleVerses);
+                        }
+                        VersesAdapter versesAdapter=new VersesAdapter(BibleVersesActivity.this,verseArray);
+                        verseListView.setAdapter(versesAdapter);
 
+
+                    } else Toast.makeText(BibleVersesActivity.this, "No data", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<BibleChaptersResponses> call, Throwable t) {
+            public void onFailure(Call<BibleVersesResponses> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
 
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
+
+        //Extracting the verse strings.
+
+//        VersesService versesService=(VersesService)retrofit.create(VersesService.class);
+//        Call<VersesContentResponses> verses=versesService.verses(chapterId);
+//
+
+//        verseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//            }
+//        });
+
+
 
     }
 }

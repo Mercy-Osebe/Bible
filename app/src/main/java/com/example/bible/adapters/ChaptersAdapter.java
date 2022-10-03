@@ -48,7 +48,7 @@ public class ChaptersAdapter extends ArrayAdapter<BibleChaptersData> {
 
 
                 Intent intent = new Intent(chaptersContext, BibleVersesActivity.class);
-                intent.putExtra("verses-id", chapt.getId());
+                intent.putExtra("chapter-id", chapt.getId());
                 chaptersContext.startActivity(intent);
 
             }

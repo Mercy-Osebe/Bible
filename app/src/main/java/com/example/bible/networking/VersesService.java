@@ -9,7 +9,7 @@
 //import retrofit2.http.Path;
 //
 //public class VersesService {
-//    @Headers("api-key: 97519447e1b0672ce68311f1c61d7c59")
+//    @Headers("api-key: 8364ed0d6d4561cff4c4d879eeebb59e")
 //    ///v1/bibles/{bibleId}/verses/{verseId}
 //    @GET("/v1/bibles/de4e12af7f28f599-01/verses/{verseId}/verses")
 //    Call<VersesContentResponses> verses(@Path("verseId") String verseId);

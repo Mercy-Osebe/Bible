@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate: start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ListView listView = findViewById(R.id.listView);
+
 
 
 
@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        String versesId=getIntent().getStringExtra("verse-id");
+        Log.e(TAG, "onCreate: "+versesId );
+        System.out.println(versesId);
 
 
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -15,6 +15,13 @@
         android:theme="@style/Theme.Bible"
         tools:targetApi="31">
         <activity
+            android:name=".StringVersesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".BibleVersesActivity"
             android:exported="false">
             <meta-data

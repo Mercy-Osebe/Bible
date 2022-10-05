@@ -3,13 +3,13 @@ package com.example.bible.pojos;
 import java.util.List;
 
 public class VersesStringResponse {
-    List<VersesStringData> data;
+    VersesStringData data;
 
-    public List<VersesStringData> getData() {
+    public VersesStringData getData() {
         return data;
     }
 
-    final public void setData(List<VersesStringData> data) {
+    final public void setData(VersesStringData data) {
         this.data = data;
     }
 }

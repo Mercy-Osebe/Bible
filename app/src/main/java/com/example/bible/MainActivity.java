@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                         for(Book book : bibleResponse.getData())
                         {
                             booksArray.add(book);
-                            Log.d(TAG, "onResponse: id"+ book.name);
+//                            Log.d(TAG, "onResponse: id"+ book.name);
                         }
                    //https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
                         BooksAdapter adapter = new BooksAdapter(MainActivity.this, booksArray);
@@ -81,18 +81,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         String versesId=getIntent().getStringExtra("verse-id");
-        Log.e(TAG, "onCreate: "+versesId );
         System.out.println(versesId);
-
-
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Log.d(TAG, "onItemClick:"+view.getId());
-//                Log.d(TAG, "onItemClick: "+i);
-//
-//            }
-//        });
+        System.out.println(versesId+"you");
+        System.out.println(versesId+"you you");
 
     }
 }

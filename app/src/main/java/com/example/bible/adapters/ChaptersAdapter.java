@@ -47,7 +47,7 @@ public class ChaptersAdapter extends ArrayAdapter<BibleChaptersData> {
                 Toast.makeText(chaptersContext, chapt.getId(), Toast.LENGTH_SHORT).show();
 
 
-                Intent intent = new Intent(chaptersContext, BibleVersesActivity.class);
+                Intent intent = new Intent(getContext(), BibleVersesActivity.class);
                 intent.putExtra("chapter-id", chapt.getId());
                 chaptersContext.startActivity(intent);
 
